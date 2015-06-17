@@ -1,21 +1,10 @@
 
 var functionList = ['range', 'floor', 'ceiling'];
-var separationList = ['+', '-', '/', '*',]; //'=', ',', '/', '*', '.', '!'];
+var separationList = ['+', '-', '/', '*',]; //'=', ',', '.', '!'];
 
 var parenList = ['(', ')', '[', ']', '{', '}'];
 
-function interpret(input) {
-    var output = "";
-
-    // simple error checking
-    /*if (input.split("(").length != input.split(")").length) {
-        return error("Mismatched parens.");
-    } else if (input.split("[").length != input.split("]").length) {
-        return error("Mismatched brackets.");
-    } else if (input.split("{").length != input.split("}").length) {
-        return error("Mismatched squiggles.");
-    }*/
-
+function interpret(input, line) {
     // Generate a stack from the input, separating each word and operand/separator/whatever
     var stack = [[]];
     var stackDepth = 0;

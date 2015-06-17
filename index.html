@@ -21,6 +21,7 @@
       border: none;
       width: 100%;
       outline: none;
+      font-family: monospace;
     }
     a {
       color: #EFF;
@@ -40,11 +41,12 @@
 
 <body>
   <div id="header">
-    <a href="http://xkcd.com/1537/">1537</a> Emulator<br>
+    <a href="http://xkcd.com/1537/">1537</a> Emulator - <a href="https://github.com/agweber/1537">github</a><br>
     <ul>
-      <li>Currently supports +, -, *, /, (, )</li>
-      <li>Order of operations does not work. Use parenthesis.</li>
-      <li>Don't yet handle floats</li>
+      <li>Currently supports +, -, *, /, (), arrays</li>
+      <li>Minimal error-checking, if you throw something weird at it, it'll throw something weird back.</li>
+      <li>Order of operations does not work; use parenthesis. Also, avoid spaces, they work only sometimes.</li>
+      <li>Does not yet handle floats</li>
       <li>Follows test cases
         <a href="#" onClick="$('#input')[0].value = '2+\'2\''; input.focus();">1</a>,
         <a href="#" onClick="$('#input')[0].value = '&quot;2&quot;+[]'; input.focus();">2</a>,
@@ -92,7 +94,7 @@
             cmd = "echo";
           }
 
-          historyAppend(cmd, interpret(cmd));
+          historyAppend(cmd, interpret(cmd, zero));
         }
       });
     });
