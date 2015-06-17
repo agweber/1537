@@ -1,0 +1,108 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>agweber.net - 1537 interpreter</title>
+  <script src="/js/jquery-2.1.4.min.js"></script>
+  <script src="1537.js"></script>
+  <style>
+    body {
+      background-color: #122;
+      color: #EFF;
+    }
+    #header {
+      background-color: #091818;
+    }
+    #history {
+      font-family: monospace;
+    }
+    input.input {
+      background-color: #233;
+      color: #EFF;
+      border: none;
+      width: 100%;
+      outline: none;
+    }
+    a {
+      color: #EFF;
+    }
+    a:visited {
+      color: #FEF;
+    }
+    a:hover {
+      color: #FFE;
+    }
+    ul {
+      margin-top: 0px;
+      margin-bottom: 0px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="header">
+    <a href="http://xkcd.com/1537/">1537</a> Emulator<br>
+    <ul>
+      <li>Currently supports +, -, *, /, (, )</li>
+      <li>Order of operations does not work. Use parenthesis.</li>
+      <li>Don't yet handle floats</li>
+      <li>Follows test cases
+        <a href="#" onClick="$('#input')[0].value = '2+\'2\''; input.focus();">1</a>,
+        <a href="#" onClick="$('#input')[0].value = '&quot;2&quot;+[]'; input.focus();">2</a>,
+        <a href="#" onClick="$('#input')[0].value = '(2/0)'; input.focus();">3</a>,
+        !<a href="#" onClick="$('#input')[0].value = '(2/0)+2'; input.focus();">4</a>,
+        !<a href="#" onClick="$('#input')[0].value = '&quot;&quot;+&quot;&quot;'; input.focus();">5</a>,
+        <a href="#" onClick="$('#input')[0].value = '[1,2,3]+2'; input.focus();">6</a>,
+        <a href="#" onClick="$('#input')[0].value = '[1,2,3]+4'; input.focus();">7</a>,
+        !<a href="#" onClick="$('#input')[0].value = '2/(2-(3/2+1/2))'; input.focus();">8</a>,
+        !<a href="#" onClick="$('#input')[0].value = 'RANGE(&quot; &quot;)'; input.focus();">9</a>,
+        !<a href="#" onClick="$('#input')[0].value = '+2'; input.focus();">10</a>,
+        !<a href="#" onClick="$('#input')[0].value = '2+2'; input.focus();">11</a>,
+        !<a href="#" onClick="$('#input')[0].value = 'RANGE(1,5)'; input.focus();">12</a>,
+        !<a href="#" onClick="$('#input')[0].value = 'FLOOR(10.5)'; input.focus();">13</a>
+      </li>
+    </ul>
+  </div>
+  <div id="history"></div>
+  <input class="input" id="input" type="text" value="[1,2,3]+4" autofocus></input>
+
+  <script>
+    $(document).ready(function(){
+      var input = $("#input");
+      input[0].selectionStart = input[0].value.length;
+      input[0].selectionEnd = input[0].value.length;
+      input.focus();
+
+       commandHistory = []
+
+      $(document).keypress(function(e) {
+        /* doesn't work
+        if(e.which == 38) {
+          $("#input")[0].value = commandHistory[commandHistory.length-1];
+          console.log("History: " + commandHistory[commandHistory.length-1]);
+        }
+        */
+        if(e.which == 13) {
+          var cmd = $.trim($("#input")[0].value);
+          commandHistory.push($("#input")[0].value);
+          $("#input")[0].value = "";
+          if (cmd === "") { //ignore blank input (for now)
+            // Ignore blank input
+            return;
+            // Allow blank input
+            cmd = "echo";
+          }
+
+          historyAppend(cmd, interpret(cmd));
+        }
+      });
+    });
+    var zero = 1;
+    function historyAppend(cmd, result) {
+      $("#history")[0].innerHTML += "[" + zero++ + "]> " + cmd + "<br>";
+      var spaces = (zero < 11 ? "&nbsp; " : zero < 101 ? "&nbsp; &nbsp;" : "&nbsp; &nbsp; ");
+                                                   // > 1000 you're having too much fun
+      $("#history")[0].innerHTML += spaces + "=> " + result + "<br>";
+    }
+  </script>
+</body>
+</html>
