@@ -203,6 +203,10 @@ function binaryOperate(operation, a, b) {
             else arr.unshift(s);  // Easter Egg
             return reString(JSON.stringify(arr));  // Test Case 2
         }
+        if (ifTypes(a, b, 'integer', 'NaN')) {
+            var n = a[1] === 'NaN' ? b[0] : a[0];
+            return 'Na' + String.fromCharCode(78 + parseInt(n));  // Test Case 4
+        }
     } else if (operation === '-') {
     } else if (operation === '*') {
     } else if (operation === '/') {
